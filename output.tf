@@ -56,3 +56,7 @@ output "azure_container_registry_admin_username" {
 output "azure_container_registry_admin_password" {
   value = "${azurerm_container_registry.default.admin_password}"
 }
+
+output "azure_cluster_node_resource_group" {
+  value = "${azurerm_kubernetes_cluster.default.node_resource_group}"
+}
