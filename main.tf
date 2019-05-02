@@ -88,6 +88,18 @@ resource "azurerm_storage_share" "default" {
   storage_account_name = "${azurerm_storage_account.default.name}"
 }
 
+# Automation Account (used for start|stop)
+resource "azurerm_automation_account" "default" {
+  name = "${module.labels.id}"
+  resource_group_name = "${azurerm_resource_group.default.name}"
+  location = "${var.location}"
+  sku {
+    name = "${var.account_tier}"
+  }
+
+  tags = "${module.labels.tags}"
+}
+
 # Storage Account Token
 # data "azurerm_storage_account_sas" "default" {
 #   connection_string = "${azurerm_storage_account.default.primary_connection_string}"
