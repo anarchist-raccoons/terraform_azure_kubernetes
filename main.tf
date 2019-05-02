@@ -94,7 +94,7 @@ resource "azurerm_automation_account" "default" {
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   sku {
-    name = "${var.account_tier}"
+    name = "Basic"
   }
 
   tags = "${module.labels.tags}"
