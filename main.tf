@@ -99,6 +99,15 @@ resource "azurerm_automation_account" "default" {
 
   tags = "${module.labels.tags}"
 }
+  
+# Log Analytics Workspace (used for start|stop)
+resource "azurerm_log_analytics_workspace" "default" {
+  name = "${module.labels.id}"
+  resource_group_name = "${azurerm_resource_group.default.name}"
+  location = "${var.location}"
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
 
 # Storage Account Token
 # data "azurerm_storage_account_sas" "default" {
