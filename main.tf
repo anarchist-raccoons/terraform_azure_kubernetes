@@ -39,6 +39,13 @@ resource "azurerm_kubernetes_cluster" "default" {
   resource_group_name = "${azurerm_resource_group.default.name}"
   dns_prefix = "${module.labels.name}" # @todo check this
 
+  default_node_pool {
+    name       = "default"
+    node_count = "${var.agent_count}"
+    vm_size    = "${var.vm_size}"
+    os_disk_size_gb = "${var.disk_size_gb}"
+  }
+  
   linux_profile {
     admin_username = "${var.admin_user}"
 
@@ -47,13 +54,13 @@ resource "azurerm_kubernetes_cluster" "default" {
     }
   }
 
-  agent_pool_profile {
-    name = "default"
-    count = "${var.agent_count}"
-    vm_size = "${var.vm_size}"
-    os_type = "Linux"
-    os_disk_size_gb = "${var.disk_size_gb}"
-  }
+#  agent_pool_profile {
+#    name = "default"
+#    count = "${var.agent_count}"
+#    vm_size = "${var.vm_size}"
+#    os_type = "Linux"
+#    os_disk_size_gb = "${var.disk_size_gb}"
+#  }
 
   service_principal {
     client_id = "${var.client_id}"
