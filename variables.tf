@@ -45,3 +45,11 @@ variable "account_replication_type" {
   description = "LRS etc."
   default = "LRS"
 }
+variable "backup_time" {
+  description = "Time of day that backup will start"
+  default = "23:00"
+}
+variable "retention_count" {
+  description = "Number of backups to retain"
+  default = "10"
+}
