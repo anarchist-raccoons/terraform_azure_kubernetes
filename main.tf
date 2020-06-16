@@ -80,6 +80,14 @@ resource "azurerm_storage_account" "default" {
   account_replication_type = "${var.account_replication_type}"
 }
 
+# Vault
+resource "azurerm_recovery_services_vault" "vault" {
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
+  resource_group_name = "${azurerm_resource_group.default.name}"
+  location = "${var.location}"
+  sku = "Standard"
+}
+  
 # Container Registry
 resource "azurerm_container_registry" "default" {
   name = "${azurerm_storage_account.default.name}"
@@ -94,6 +102,38 @@ resource "azurerm_storage_share" "default" {
   name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
   storage_account_name = "${azurerm_storage_account.default.name}"
 }
+
+# Backup for Azure Share
+resource "azurerm_backup_container_storage_account" "protection-container" {
+  resource_group_name = "${azurerm_resource_group.default.name}"
+  recovery_vault_name = azurerm_recovery_services_vault.vault.name
+  storage_account_id  = azurerm_storage_account.default.id
+}
+
+resource "azurerm_backup_policy_file_share" "default" {
+  name = "${module.labels.name}-recovery-vault-policy"
+  resource_group_name = "${azurerm_resource_group.default.name}"
+  recovery_vault_name = azurerm_recovery_services_vault.vault.name
+
+  backup {
+    frequency = "Daily"
+    time      = "23:00"
+  }
+
+  retention_daily {
+    count = 10
+  }
+}
+
+# Backup Azure Fileshare 
+resource "azurerm_backup_protected_file_share" "share1" {
+  resource_group_name       = azurerm_resource_group.default.name
+  recovery_vault_name       = azurerm_recovery_services_vault.vault.name
+  source_storage_account_id = azurerm_backup_container_storage_account.protection-container.storage_account_id
+  source_file_share_name    = azurerm_storage_share.default.name
+  backup_policy_id          = azurerm_backup_policy_file_share.default.id
+}
+  
 
 # Automation Account (used for start|stop)
 resource "azurerm_automation_account" "default" {
