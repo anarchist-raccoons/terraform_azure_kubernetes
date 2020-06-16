@@ -114,14 +114,15 @@ resource "azurerm_backup_policy_file_share" "default" {
   name = "${module.labels.name}-recovery-vault-policy"
   resource_group_name = "${azurerm_resource_group.default.name}"
   recovery_vault_name = azurerm_recovery_services_vault.vault.name
-
+  
+  # Very simple daily backup for (defaults to 23:00 for 10 days)
   backup {
     frequency = "Daily"
-    time      = "23:00"
+    time      = "${var.backup_time}"
   }
 
   retention_daily {
-    count = 10
+    count = "${var.retention_count}"
   }
 }
 
