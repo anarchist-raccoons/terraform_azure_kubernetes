@@ -80,8 +80,8 @@ resource "azurerm_storage_account" "default" {
   account_replication_type = "${var.account_replication_type}"
   identity {
     type = "SystemAssigned"
-    principal_id = "${azurerm_storage_account.example.identity.0.principal_id}"
-    tenant_id = "${azurerm_storage_account.example.identity.0.tenant_id}"
+    principal_id = "${azurerm_storage_account.default.identity.0.principal_id}"
+    tenant_id = "${azurerm_storage_account.default.identity.0.tenant_id}"
   }
 }
 
