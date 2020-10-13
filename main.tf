@@ -78,11 +78,6 @@ resource "azurerm_storage_account" "default" {
   location = "${var.location}"
   account_tier = "${var.account_tier}"
   account_replication_type = "${var.account_replication_type}"
-  identity {
-    type = "SystemAssigned"
-    principal_id = "${azurerm_storage_account.default.identity.0.principal_id}"
-    tenant_id = "${azurerm_storage_account.default.identity.0.tenant_id}"
-  }
 }
 
 # Vault
