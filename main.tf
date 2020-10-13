@@ -82,7 +82,7 @@ resource "azurerm_storage_account" "default" {
 
 # Vault
 resource "azurerm_recovery_services_vault" "vault" {
-  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}-vault"
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   sku = "Standard"
