@@ -75,7 +75,7 @@ resource "random_id" "default" {
   keepers = {
     azi_id = 1
   }
-  byte_length = 8
+  byte_length = 5
 }
 
 
