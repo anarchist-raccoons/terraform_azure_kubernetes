@@ -80,8 +80,7 @@ resource "random_id" "default" {
 
 # Storage Account
 resource "azurerm_storage_account" "default" {
-  #name = "${module.labels.organization}${module.labels.environment}${module.labels.name}${random_id.default.dec}"
-  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}${random_id.default.dec}"
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   account_tier = "${var.account_tier}"
