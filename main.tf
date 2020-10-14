@@ -70,10 +70,18 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   tags = "${module.labels.tags}"
 }
+  
+resource "random_id" "default" {
+  keepers = {
+    azi_id = 1
+  }
+  byte_length = 8
+}
+
 
 # Storage Account
 resource "azurerm_storage_account" "default" {
-  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}${random_id.default.hex}"
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   account_tier = "${var.account_tier}"
