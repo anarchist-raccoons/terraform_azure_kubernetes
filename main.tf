@@ -74,6 +74,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 resource "random_string" "default" {
   length = 5
   special = false
+  upper = false
 }
 
 # Storage Account
