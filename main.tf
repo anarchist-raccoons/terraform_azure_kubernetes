@@ -86,8 +86,8 @@ resource "random_string" "default" {
 
 # Storage Account
 resource "azurerm_storage_account" "default" {
-#  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
-  name = join("", [module.labels.environment,module.labels.name])
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
+#  name = join("", [module.labels.environment,module.labels.name])
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   account_tier = "${var.account_tier}"
@@ -96,8 +96,8 @@ resource "azurerm_storage_account" "default" {
 
 # Vault
 resource "azurerm_recovery_services_vault" "vault" {
-#  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}-vault"
-  name = join("", [module.labels.environment,module.labels.name,"-vault"])
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}-vault"
+#  name = join("", [module.labels.environment,module.labels.name,"-vault"])
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   sku = "Standard"
@@ -114,8 +114,8 @@ resource "azurerm_container_registry" "default" {
 
 # Azure Share
 resource "azurerm_storage_share" "default" {
-#  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
-  name = join("", [module.labels.environment,module.labels.name])
+  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
+#  name = join("", [module.labels.environment,module.labels.name])
   storage_account_name = "${azurerm_storage_account.default.name}"
 }
 
