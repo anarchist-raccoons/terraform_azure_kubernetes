@@ -20,7 +20,7 @@ module "labels" {
   delimiter = "-"
   owner = "${var.owner}"
   team = "${var.team}"
-  tags {
+  tags = {
     Name = "${module.labels.id}"
   }
 }
