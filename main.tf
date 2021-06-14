@@ -18,7 +18,7 @@ module "labels" {
   delimiter  = "-"
 
   tags = { Name = module.labels.id }
-
+  experiments = [variable_validation]
 #  # Required
 #  environment = "${var.environment}"
 #  name = "${var.name}"
