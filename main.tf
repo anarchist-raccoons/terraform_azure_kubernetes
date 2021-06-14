@@ -7,23 +7,23 @@ provider "azurerm" {
 }
 
 # Labels
-module "labels" {
-  source = "devops-workflow/label/local"
-  version = "0.2.1"
-
-  # Required
-  environment = "${var.environment}"
-  name = "${var.name}"
-  # Optional
-  namespace-org = "${var.namespace-org}"
-  organization = "${var.org}"
-  delimiter = "-"
-  owner = "${var.owner}"
-  team = "${var.team}"
-  tags = {
-    Name = "${module.labels.id}"
-  }
-}
+#module "labels" {
+#  source = "devops-workflow/label/local"
+#  version = "0.2.1"
+#
+#  # Required
+#  environment = "${var.environment}"
+#  name = "${var.name}"
+# # Optional
+#  namespace-org = "${var.namespace-org}"
+#  organization = "${var.org}"
+#  delimiter = "-"
+#  owner = "${var.owner}"
+#  team = "${var.team}"
+#  tags = {
+#    Name = "${module.labels.id}"
+#  }
+#}
 
 # Azure Resource Group
 resource "azurerm_resource_group" "default" {
