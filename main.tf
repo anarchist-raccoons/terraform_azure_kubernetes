@@ -1,7 +1,3 @@
-terraform {
-  experiments = [variable_validation]
-}
-
 provider "azurerm" {
   subscription_id = "${var.subscription_id}"
   client_id = "${var.client_id}"
@@ -15,7 +11,7 @@ module "labels" {
 #  source = "devops-workflow/label/local"
 #  version = "0.2.1"
   # possible alternative to work with > 0.11
-  source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=master"
+  source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=0.12.2"
   environment = var.environment
   name       = var.name
   namespace  = var.namespace-org
