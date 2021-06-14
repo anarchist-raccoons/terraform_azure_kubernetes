@@ -16,6 +16,7 @@ module "labels" {
   name       = var.name
   namespace  = var.namespace-org
   delimiter  = "-"
+  organization = var.org
 
   tags = { Name = module.labels.id }
 #  # Required
