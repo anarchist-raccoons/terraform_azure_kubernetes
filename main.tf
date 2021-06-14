@@ -12,19 +12,25 @@ module "labels" {
 #  version = "0.2.1"
   # possible alternative to work with > 0.11
   source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=master"
+  environment = var.environment
+  name       = var.name
+  namespace  = var.namespace-org
+  delimiter  = "-"
 
-  # Required
-  environment = "${var.environment}"
-  name = "${var.name}"
- # Optional
-  namespace-org = "${var.namespace-org}"
-  organization = "${var.org}"
-  delimiter = "-"
-  owner = "${var.owner}"
-  team = "${var.team}"
-  tags = {
-    Name = "${module.labels.id}"
-  }
+  tags = { Name = module.labels.id }
+
+#  # Required
+#  environment = "${var.environment}"
+#  name = "${var.name}"
+# # Optional
+#  namespace-org = "${var.namespace-org}"
+#  organization = "${var.org}"
+#  delimiter = "-"
+#  owner = "${var.owner}"
+#  team = "${var.team}"
+#  tags = {
+#    Name = "${module.labels.id}"
+#  }
 }
 
 # Azure Resource Group
