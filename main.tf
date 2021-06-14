@@ -14,7 +14,7 @@ module "labels" {
   source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=0.12.2"
   environment = var.environment
   name       = var.name
-  namespace  = var.namespace-org
+  namespace  = var.org
   delimiter  = "-"
 
   tags = { Name = module.labels.id }
@@ -86,8 +86,7 @@ resource "random_string" "default" {
 
 # Storage Account
 resource "azurerm_storage_account" "default" {
-  name = "${module.labels.environment}${module.labels.name}"
-#  name = join("", [module.labels.environment,module.labels.name])
+  name = join("", [module.labels.namespace,module.labels.environment,module.labels.name])
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   account_tier = "${var.account_tier}"
@@ -96,8 +95,7 @@ resource "azurerm_storage_account" "default" {
 
 # Vault
 resource "azurerm_recovery_services_vault" "vault" {
-  name = "${module.labels.environment}${module.labels.name}-vault"
-#  name = join("", [module.labels.environment,module.labels.name,"-vault"])
+  name = join("", [module.labels.namespace,module.labels.environment,module.labels.name,"-vault"])
   resource_group_name = "${azurerm_resource_group.default.name}"
   location = "${var.location}"
   sku = "Standard"
@@ -114,8 +112,7 @@ resource "azurerm_container_registry" "default" {
 
 # Azure Share
 resource "azurerm_storage_share" "default" {
-  name = "${module.labels.environment}${module.labels.name}"
-#  name = join("", [module.labels.environment,module.labels.name])
+  name = join("", [module.labels.namespace,module.labels.environment,module.labels.name])
   storage_account_name = "${azurerm_storage_account.default.name}"
 }
 
