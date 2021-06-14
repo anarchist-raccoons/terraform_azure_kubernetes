@@ -8,8 +8,10 @@ provider "azurerm" {
 
 # Labels
 module "labels" {
-  source = "devops-workflow/label/local"
-  version = "0.2.1"
+#  source = "devops-workflow/label/local"
+#  version = "0.2.1"
+  # possible alternative to work with > 0.11
+  source = "git::https://github.com/cloudposse/terraform-null-label.git?ref=master"
 
   # Required
   environment = "${var.environment}"
