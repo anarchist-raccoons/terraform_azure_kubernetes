@@ -1,3 +1,7 @@
+terraform {
+  experiments = [variable_validation]
+}
+
 provider "azurerm" {
   subscription_id = "${var.subscription_id}"
   client_id = "${var.client_id}"
@@ -18,7 +22,6 @@ module "labels" {
   delimiter  = "-"
 
   tags = { Name = module.labels.id }
-  experiments = [variable_validation]
 #  # Required
 #  environment = "${var.environment}"
 #  name = "${var.name}"
