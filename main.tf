@@ -19,16 +19,16 @@ module "labels" {
 
   tags = { Name = module.labels.id }
 #  # Required
-#  environment = "${var.environment}"
-#  name = "${var.name}"
+#  environment = var.environment
+#  name = var.name
 # # Optional
-#  namespace-org = "${var.namespace-org}"
-#  organization = "${var.org}"
+#  namespace-org = var.namespace-org
+#  organization = var.org
 #  delimiter = "-"
-#  owner = "${var.owner}"
-#  team = "${var.team}"
+#  owner = var.owner
+#  team = var.team
 #  tags = {
-#    Name = "${module.labels.id}"
+#    Name = module.labels.id
 #  }
 }
 
@@ -64,10 +64,10 @@ resource "azurerm_kubernetes_cluster" "default" {
 
 #  agent_pool_profile {
 #    name = "default"
-#    count = "${var.agent_count}"
-#    vm_size = "${var.vm_size}"
+#    count = var.agent_count
+#    vm_size = var.vm_size
 #    os_type = "Linux"
-#    os_disk_size_gb = "${var.disk_size_gb}"
+#    os_disk_size_gb = var.disk_size_gb
 #  }
 
   service_principal {
@@ -118,9 +118,9 @@ resource "azurerm_storage_share" "default" {
 
 # Backup for Azure Share
 #resource "azurerm_backup_container_storage_account" "protection-container" {
-#  resource_group_name = "${azurerm_resource_group.default.name}"
-#  recovery_vault_name = "${azurerm_recovery_services_vault.vault.name}"
-#  storage_account_id  = "${azurerm_storage_account.default.id}"
+#  resource_group_name = azurerm_resource_group.default.name
+#  recovery_vault_name = azurerm_recovery_services_vault.vault.name
+#  storage_account_id  = azurerm_storage_account.default.id
 #}
 
 # Backup Azure Fileshare 
@@ -142,39 +142,39 @@ resource "azurerm_backup_policy_file_share" "default" {
 
 # Backup Azure Fileshare 
 #resource "azurerm_backup_protected_file_share" "share1" {
-#  resource_group_name       = "${azurerm_resource_group.default.name}"
-#  recovery_vault_name       = "${azurerm_recovery_services_vault.vault.name}"
-#  source_storage_account_id = "${azurerm_backup_container_storage_account.protection-container.storage_account_id}"
-#  source_file_share_name    = "${azurerm_storage_share.default.name}"
-#  backup_policy_id          = "${azurerm_backup_policy_file_share.default.id}"
+#  resource_group_name       = azurerm_resource_group.default.name
+#  recovery_vault_name       = azurerm_recovery_services_vault.vault.name
+#  source_storage_account_id = azurerm_backup_container_storage_account.protection-container.storage_account_id
+#  source_file_share_name    = azurerm_storage_share.default.name
+#  backup_policy_id          = azurerm_backup_policy_file_share.default.id
 #}
   
 
 # Automation Account (used for start|stop)
 #resource "azurerm_automation_account" "default" {
-#  name = "${module.labels.id}"
-#  resource_group_name = "${azurerm_resource_group.default.name}"
-#  location = "${var.location}"
+#  name = module.labels.id
+#  resource_group_name = azurerm_resource_group.default.name
+#  location = var.location
 #  sku_name = "Basic"
 ##  sku {
 ##    name = "Basic"
 ##  }
 #
-#  tags = "${module.labels.tags}"
+#  tags = module.labels.tags
 #}
   
 # Log Analytics Workspace (used for start|stop)
 #resource "azurerm_log_analytics_workspace" "default" {
-#  name = "${module.labels.id}"
-#  resource_group_name = "${azurerm_resource_group.default.name}"
-#  location = "${var.location}"
+#  name = module.labels.id
+#  resource_group_name = azurerm_resource_group.default.name
+#  location = var.location
 #  sku                 = "PerGB2018"
 #  retention_in_days   = 30
 #}
 
 # Storage Account Token
 # data "azurerm_storage_account_sas" "default" {
-#   connection_string = "${azurerm_storage_account.default.primary_connection_string}"
+#   connection_string = azurerm_storage_account.default.primary_connection_string
 #   https_only = false
 
 #   resource_types {
@@ -190,10 +190,10 @@ resource "azurerm_backup_policy_file_share" "default" {
 #     file = true
 #   }
 
-#   start = "${timestamp()}"
-#   expiry = "${timeadd(
-#     "${timestamp()}", "360m"
-#     )}"
+#   start = timestamp()
+#   expiry = timeadd(
+#     timestamp(), "360m"
+#     )
 
 #   permissions {
 #     read = true
