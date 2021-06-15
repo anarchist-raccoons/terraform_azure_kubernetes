@@ -1,8 +1,8 @@
 provider "azurerm" {
   subscription_id = var.subscription_id
-  client_id = "${var.client_id}"
-  client_secret = "${var.client_secret}"
-  tenant_id = "${var.tenant_id}"
+  client_id = var.client_id
+  client_secret = var.client_secret
+  tenant_id = var.tenant_id
   features {}
 }
 
@@ -34,31 +34,31 @@ module "labels" {
 
 # Azure Resource Group
 resource "azurerm_resource_group" "default" {
-  name = "${module.labels.id}"
-  location = "${var.location}"
+  name = module.labels.id
+  location = var.location
 
-  tags = "${module.labels.tags}"
+  tags = module.labels.tags
 }
 
 # Kubernetes Cluster
 resource "azurerm_kubernetes_cluster" "default" {
-  name = "${module.labels.id}"
-  location = "${var.location}"
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  dns_prefix = "${module.labels.name}" # @todo check this
+  name = module.labels.id
+  location = var.location
+  resource_group_name = azurerm_resource_group.default.name
+  dns_prefix = module.labels.name # @todo check this
 
   default_node_pool {
     name       = "default"
-    node_count = "${var.agent_count}"
-    vm_size    = "${var.vm_size}"
-    os_disk_size_gb = "${var.disk_size_gb}"
+    node_count = var.agent_count
+    vm_size    = var.vm_size
+    os_disk_size_gb = var.disk_size_gb
   }
   
   linux_profile {
-    admin_username = "${var.admin_user}"
+    admin_username = var.admin_user
 
     ssh_key {
-      key_data = "${var.ssh_key}"
+      key_data = var.ssh_key
     }
   }
 
@@ -71,11 +71,11 @@ resource "azurerm_kubernetes_cluster" "default" {
 #  }
 
   service_principal {
-    client_id = "${var.client_id}"
-    client_secret = "${var.client_secret}"
+    client_id = var.client_id
+    client_secret = var.client_secret
   }
 
-  tags = "${module.labels.tags}"
+  tags = module.labels.tags
 }
   
 resource "random_string" "default" {
@@ -87,33 +87,33 @@ resource "random_string" "default" {
 # Storage Account
 resource "azurerm_storage_account" "default" {
   name = join("", [module.labels.namespace,module.labels.environment,module.labels.name])
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  location = "${var.location}"
-  account_tier = "${var.account_tier}"
-  account_replication_type = "${var.account_replication_type}"
+  resource_group_name = azurerm_resource_group.default.name
+  location = var.location
+  account_tier = var.account_tier
+  account_replication_type = var.account_replication_type
 }
 
 # Vault
 resource "azurerm_recovery_services_vault" "vault" {
   name = join("", [module.labels.namespace,module.labels.environment,module.labels.name,"-vault"])
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  location = "${var.location}"
+  resource_group_name = azurerm_resource_group.default.name
+  location = var.location
   sku = "Standard"
 }
   
 # Container Registry
 resource "azurerm_container_registry" "default" {
-  name = "${azurerm_storage_account.default.name}"
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  location = "${var.location}"
-  sku = "${var.account_tier}"
+  name = azurerm_storage_account.default.name
+  resource_group_name = azurerm_resource_group.default.name
+  location = var.location
+  sku = var.account_tier
   admin_enabled = true # registry name as username, admin user access key as password for docker (alt to IAM beloe)
 }
 
 # Azure Share
 resource "azurerm_storage_share" "default" {
   name = join("", [module.labels.namespace,module.labels.environment,module.labels.name])
-  storage_account_name = "${azurerm_storage_account.default.name}"
+  storage_account_name = azurerm_storage_account.default.name
 }
 
 # Backup for Azure Share
@@ -125,18 +125,18 @@ resource "azurerm_storage_share" "default" {
 
 # Backup Azure Fileshare 
 resource "azurerm_backup_policy_file_share" "default" {
-  name = "${module.labels.name}-recovery-vault-policy"
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  recovery_vault_name = "${azurerm_recovery_services_vault.vault.name}"
+  name = join("", [module.labels.name, "-recovery-vault-policy"])
+  resource_group_name = azurerm_resource_group.default.name
+  recovery_vault_name = azurerm_recovery_services_vault.vault.name
   
   # Very simple daily backup for (defaults to 23:00 for 10 days)
   backup {
     frequency = "Daily"
-    time      = "${var.backup_time}"
+    time      = var.backup_time
   }
 
   retention_daily {
-    count = "${var.retention_count}"
+    count = var.retention_count
   }
 }
 
