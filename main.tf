@@ -47,6 +47,10 @@ resource "azurerm_kubernetes_cluster" "default" {
     os_disk_size_gb = "${var.disk_size_gb}"
   }
   
+  network_profile {
+    load_balancer_sku = "Standard"
+  }
+  
   linux_profile {
     admin_username = "${var.admin_user}"
 
