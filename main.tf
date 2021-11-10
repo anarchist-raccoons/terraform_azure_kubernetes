@@ -91,13 +91,13 @@ resource "azurerm_storage_account" "default" {
   account_replication_type = "${var.account_replication_type}"
 }
 
-# Vault
-resource "azurerm_recovery_services_vault" "vault" {
-  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}-vault"
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  location = "${var.location}"
-  sku = "Standard"
-}
+# Vault (not within terraform so we can persist our vaults beyond a terraform destroy)
+#resource "azurerm_recovery_services_vault" "vault" {
+#  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}-vault"
+#  resource_group_name = "${azurerm_resource_group.default.name}"
+#  location = "${var.location}"
+#  sku = "Standard"
+#}
   
 # Container Registry
 resource "azurerm_container_registry" "default" {
@@ -121,22 +121,22 @@ resource "azurerm_storage_share" "default" {
 #  storage_account_id  = "${azurerm_storage_account.default.id}"
 #}
 
-# Backup Azure Fileshare 
-resource "azurerm_backup_policy_file_share" "default" {
-  name = "${module.labels.name}-recovery-vault-policy"
-  resource_group_name = "${azurerm_resource_group.default.name}"
-  recovery_vault_name = "${azurerm_recovery_services_vault.vault.name}"
-  
-  # Very simple daily backup for (defaults to 23:00 for 10 days)
-  backup {
-    frequency = "Daily"
-    time      = "${var.backup_time}"
-  }
-
-  retention_daily {
-    count = "${var.retention_count}"
-  }
-}
+# Backup Azure Fileshare polict (not within terraform so we can persist our vaults beyond a terraform destroy)
+#resource "azurerm_backup_policy_file_share" "default" {
+#  name = "${module.labels.name}-recovery-vault-policy"
+#  resource_group_name = "${azurerm_resource_group.default.name}"
+#  recovery_vault_name = "${azurerm_recovery_services_vault.vault.name}"
+#  
+#  # Very simple daily backup for (defaults to 23:00 for 10 days)
+#  backup {
+#    frequency = "Daily"
+#    time      = "${var.backup_time}"
+#  }
+#
+#  retention_daily {
+#    count = "${var.retention_count}"
+#  }
+#}
 
 # Backup Azure Fileshare 
 #resource "azurerm_backup_protected_file_share" "share1" {
