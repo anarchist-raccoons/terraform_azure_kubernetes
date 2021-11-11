@@ -49,7 +49,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   
   network_profile {
     network_plugin = "kubenet"
-    load_balancer_sku = "Standard"
+    load_balancer_sku = "Basic"
   }
   
   linux_profile {
