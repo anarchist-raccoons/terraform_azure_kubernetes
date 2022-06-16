@@ -20,9 +20,10 @@ module "labels" {
   delimiter = "-"
   owner = "${var.owner}"
   team = "${var.team}"
-  tags {
-    Name = "${module.labels.id}"
-  }
+#  tags {
+#    Name = "${module.labels.id}"
+#  }
+  tags = "${module.labels.id}"
 }
 
 # Azure Resource Group
