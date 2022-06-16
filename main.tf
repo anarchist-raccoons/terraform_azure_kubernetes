@@ -112,6 +112,7 @@ resource "azurerm_container_registry" "default" {
 resource "azurerm_storage_share" "default" {
   name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
   storage_account_name = "${azurerm_storage_account.default.name}"
+  quota = 5120
 }
 
 # Backup for Azure Share
