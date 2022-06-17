@@ -60,6 +60,13 @@ resource "azurerm_kubernetes_cluster" "default" {
       key_data = "${var.ssh_key}"
     }
   }
+  
+  role_based_access_control {
+    enabled = true
+    azure_active_directory {
+      managed = true
+    }
+  }
 
 #  agent_pool_profile {
 #    name = "default"
