@@ -63,9 +63,6 @@ resource "azurerm_kubernetes_cluster" "default" {
   
   role_based_access_control {
     enabled = true
-    azure_active_directory {
-      managed = true
-    }
   }
 
 #  agent_pool_profile {
