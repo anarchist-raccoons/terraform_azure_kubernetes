@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   
   lifecycle {
     ignore_changes = [
-      "role_based_access_control"
+      role_based_access_control
     ]
   }
 
