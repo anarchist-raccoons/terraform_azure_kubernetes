@@ -61,14 +61,11 @@ resource "azurerm_kubernetes_cluster" "default" {
     }
   }
   
-  
-#  agent_pool_profile {
-#    name = "default"
-#    count = "${var.agent_count}"
-#    vm_size = "${var.vm_size}"
-#    os_type = "Linux"
-#    os_disk_size_gb = "${var.disk_size_gb}"
-#  }
+  lifecycle {
+    ignore_changes = [
+      "role_based_access_control"
+    ]
+  }
 
   service_principal {
     client_id = "${var.client_id}"
