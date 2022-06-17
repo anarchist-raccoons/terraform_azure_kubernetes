@@ -75,16 +75,6 @@ resource "azurerm_kubernetes_cluster" "default" {
     client_secret = "${var.client_secret}"
   }
   
-  role_based_access_control {
-    enabled = true
-
-#    azure_active_directory {
-#      client_app_id     = "${azuread_application.client.application_id}"
-#      server_app_id     = "${azuread_application.server.application_id}"
-#      server_app_secret = "${azuread_service_principal_password.server.value}"
-#    }
-  }
-
   tags = "${module.labels.tags}"
 }
   
