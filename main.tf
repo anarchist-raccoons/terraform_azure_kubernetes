@@ -61,11 +61,11 @@ resource "azurerm_kubernetes_cluster" "default" {
     }
   }
   
-  lifecycle {
-    ignore_changes = [
-      role_based_access_control
-    ]
-  }
+#  lifecycle {
+#    ignore_changes = [
+#      role_based_access_control
+#    ]
+#  }
 
   service_principal {
     client_id = "${var.client_id}"
