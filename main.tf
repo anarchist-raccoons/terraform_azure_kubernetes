@@ -84,7 +84,7 @@ resource "random_string" "default" {
 # Storage Account
 resource "azurerm_storage_account" "default" {
 #  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
-  name = format("%s%s%s",module.labels.organization},module.labels.environment,module.labels.name )
+  name = format("%s%s%s",module.labels.organization,module.labels.environment,module.labels.name)
   resource_group_name = azurerm_resource_group.default.name
   location = var.location
   account_tier = var.account_tier
