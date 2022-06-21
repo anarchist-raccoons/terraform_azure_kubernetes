@@ -47,6 +47,7 @@ resource "azurerm_kubernetes_cluster" "default" {
     vm_size    = var.vm_size
     os_disk_size_gb = var.disk_size_gb
     node_labels = {
+      # TODO make this value a variable
       app_group = "hyrax"
     }
   }
