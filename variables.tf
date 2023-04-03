@@ -53,6 +53,3 @@ variable "retention_count" {
   description = "Number of backups to retain"
   default = "10"
 }
-variable "app_group" {
-  description = "Label node for node affinity"
-}
