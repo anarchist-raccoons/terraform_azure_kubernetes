@@ -41,6 +41,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   resource_group_name = azurerm_resource_group.default.name
   dns_prefix = module.labels.name # @todo check this
   image_cleaner_enabled = true
+  image_cleaner_interval_hours = 48
 
   default_node_pool {
     name       = "default"
