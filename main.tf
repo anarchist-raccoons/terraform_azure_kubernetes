@@ -76,11 +76,11 @@ resource "azurerm_kubernetes_cluster" "default" {
   tags = "${module.labels.tags}"
 }
   
-#resource "random_string" "default" {
-#  length = 5
-#  special = false
-#  upper = false
-#}
+resource "random_string" "default" {
+  length = 5
+  special = false
+  upper = false
+}
 
 # Storage Account
 resource "azurerm_storage_account" "default" {
