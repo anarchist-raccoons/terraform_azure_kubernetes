@@ -42,6 +42,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   dns_prefix = module.labels.name # @todo check this
   image_cleaner_enabled = true
   image_cleaner_interval_hours = 48
+  upgrade_override {
+    force_upgrade_enabled = false
+  }
 
   default_node_pool {
     name       = "default"
