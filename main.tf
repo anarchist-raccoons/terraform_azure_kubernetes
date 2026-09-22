@@ -43,9 +43,9 @@ resource "azurerm_kubernetes_cluster" "default" {
   image_cleaner_enabled = true
   image_cleaner_interval_hours = 48
 # was required, now causes syntax error
-#  upgrade_override {
-#    force_upgrade_enabled = false
-#  }
+ upgrade_override {
+   force_upgrade_enabled = false
+ }
 
   default_node_pool {
     name       = "default"
