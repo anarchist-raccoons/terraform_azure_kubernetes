@@ -56,6 +56,11 @@ resource "azurerm_kubernetes_cluster" "default" {
       app_group = var.app_group
     }
   }
+
+  # Add this required block for v5.x compatibility
+  node_provisioning_profile {
+    mode = "Manual"
+  }
   
   network_profile {
     network_plugin = "kubenet"
@@ -115,7 +120,7 @@ resource "azurerm_storage_share" "default" {
 #  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
   name = format("%s%s%s",module.labels.organization,module.labels.environment,module.labels.name)
 
-  storage_account_name = azurerm_storage_account.default.name
+  storage_account_id = azurerm_storage_account.default.name
   quota = 5120
 }
 
