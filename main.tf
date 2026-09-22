@@ -119,8 +119,8 @@ resource "azurerm_container_registry" "default" {
 resource "azurerm_storage_share" "default" {
 #  name = "${module.labels.organization}${module.labels.environment}${module.labels.name}"
   name = format("%s%s%s",module.labels.organization,module.labels.environment,module.labels.name)
-
-  storage_account_id = azurerm_storage_account.default.name
+  storage_account_id = azurerm_storage_account.default.id
+  #storage_account_name = azurerm_storage_account.default.name
   quota = 5120
 }
 
